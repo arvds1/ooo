@@ -11,11 +11,8 @@ namespace Hello_World
         static void Main(string[] args)
         {
             // zabacali funkciju, eta komanda ee vizivaet. Funkcij mozhet bitj skoljko ugodno
-
             SayHello();
-
             // vizovem eshe odnu funkciju
-
             SayHelloToUser();
         }
 
@@ -28,8 +25,12 @@ namespace Hello_World
             // pishem chtob napisali svojo imja
             string userName;
             userName = Console.ReadLine();
+            string age;
+            Console.WriteLine("Please enter your age:");
+            age = Console.ReadLine();
+            age = age + 100;
             // prosim chtob posle enter vvel imja + text
-            Console.WriteLine("Dobrogo dnja," + userName + "?"); // Arvids "Dobrogo Dnja"
+            Console.WriteLine(" Dobrogo dnja, " + userName +" ! " + " Tvoi vozrast " + age); // Arvids "Dobrogo Dnja"
             Console.ReadLine();
         }
 
