@@ -40,7 +40,7 @@ namespace ConsoleApp1
                     break;
                 }
 
-
+                
                 else
                 {
                     Console.WriteLine("Sorry do not understand !");
