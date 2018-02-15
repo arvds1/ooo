@@ -10,9 +10,47 @@ namespace ConsoleApp1
     {
         static void Main(string[] args)
         {
-            Radius();
+            string userInput = "";
+            while (userInput != "x")
+            {
+                Console.WriteLine("please choose action");
+                Console.WriteLine("a - calculate circle area");
+                Console.WriteLine("c - caount two numbers togheter");
+                Console.WriteLine("e - does the number divides?");
+                Console.WriteLine("x - close the programm");
+                userInput = Console.ReadLine();
+                //esli a radius, esli c soshitatj, esli chto to drugoe vidatj oshibku
+                if (userInput == "a")
+                {
+                    Radius();
+                }
+
+                else if (userInput == "c")
+                {
+                    CountTwoNumbersTogether();
+                }
+
+                else if (userInput == "e")
+                {
+                    DoesTheNumDivides();
+                }
+
+                else if (userInput == "x")
+                {
+                    break;
+                }
+
+
+                else
+                {
+                    Console.WriteLine("Sorry do not understand !");
+                }
+            }
+            
+            
             // Ctrl + K un tad D pomogaet popravitj kod, esli ego razbrosalo
-            CountTwoNumbersTogether();
+            
+            // double obeshjaet chto budet ne krugloe chislo, int chto krugloe chislo, string chto budet text
         }
 
 
@@ -45,7 +83,7 @@ namespace ConsoleApp1
                 Console.WriteLine("bad try" + textInput);
                 Console.WriteLine("double validate number");
                 parsedNumber = GetNumberFromUser(msg);
-                
+
             }
             else
             {
@@ -62,6 +100,22 @@ namespace ConsoleApp1
             number2 = GetNumberFromUser("Please input second number");
             Console.WriteLine(number1 + number2);
             Console.ReadLine();
+
+        }
+        static void DoesTheNumDivides()
+        {
+            double divisible = GetNumberFromUser("please enter divisible!!!");
+            double divider = GetNumberFromUser("please enter divider!!!");
+            double modulo = divisible % divider;
+            if (modulo == 0)
+            {
+                Console.WriteLine("number divides!!!");
+                Console.ReadLine();
+            }
+            else
+            {
+                Console.WriteLine("number does not divides!!!");
+            }
         }
     }
 }
