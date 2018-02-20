@@ -19,9 +19,11 @@ namespace to_do_list_app
                 Console.WriteLine("dd = delete all to do`s");
                 Console.WriteLine("sv = save to do`s");
                 Console.WriteLine("r = read from file");
+                Console.WriteLine("at = mark as done");
                 string userInput = Console.ReadLine();
                 switch (userInput)
                 {
+                    case "add":
                     case "a":
                         // add new things to do
                         Console.WriteLine("Please add things that you would like to do:");
@@ -55,6 +57,19 @@ namespace to_do_list_app
                     case "r":
                         list.readFromFile();
                         break;
+
+                    case "at":
+                        Console.WriteLine("Please select which task you would like to mark as completed");
+                        list.ShowAllTodos();
+                        int doneTodoIndex = int.Parse(Console.ReadLine());
+                        list.MarkTodoAsDone(doneTodoIndex - 1);
+                        break;
+
+
+                    default:
+                        Console.WriteLine("unknown command: ");
+                        break;
+
                 }
 
 

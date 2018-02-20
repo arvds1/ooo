@@ -13,17 +13,19 @@ namespace to_do_list_app
         // nazivaetsja vsegda kak klass
         public ToDoList()
         {
-            todoEntries = new List<string>();
+            todoEntries = new List<ToDoListEntry>();
         }
 
-        List<string> todoEntries;
+        List<ToDoListEntry> todoEntries;
 
         public void AddNewToDo(string task)
         {
             // vse usingi dajut vozmozhnostj izpoljzovatj dop funkcii. ctrl + . vizivaet raznie klassi
 
             Console.WriteLine("you have added a task " + task);
-            todoEntries.Add(task);
+            ToDoListEntry usersTodo = new ToDoListEntry();
+            usersTodo.Name = task;
+            todoEntries.Add(usersTodo);
 
         }
 
@@ -34,7 +36,13 @@ namespace to_do_list_app
             for (int counter = 0; counter < todoEntries.Count; counter += 1)
             {
                 // novaja fishka [] indeksator, seichas budem vitaskivatj nashi zapisi
-                Console.WriteLine((counter + 1) + ". " + todoEntries[counter]);
+                Console.Write((counter + 1) + ". " + todoEntries[counter].Name);
+                if (todoEntries[counter].isCompleted)
+
+                {
+                    Console.WriteLine("DONE");
+                }
+
                 Console.WriteLine();
             }
 
@@ -64,26 +72,56 @@ namespace to_do_list_app
             todoEntries.Clear();
         }
 
+        string pathToTodoFile = @"C:\Users\Arvids\Documents\GitHub\ooo\to do list app\to do application settings\todos.txt";
         public void saveToFile()
         {
+            
+            File.Delete(pathToTodoFile);
             //Ctrl + . -> vizivaet sistemi, kotorie mi mozhem dobavljatj i togda budut vidni novie vozmozhnosti
+            // dlja faila nuzhno ukazivatj putj, budet rugatssja na slash, mozhno stavitj \ pered kaszhdim slash ili dobavit @, govorja chto eto putj
             for (int i = 0; i < todoEntries.Count; i++)
-                // dlja faila nuzhno ukazivatj putj, budet rugatssja na slash, mozhno stavitj \ pered kaszhdim slash ili dobavit @, govorja chto eto putj
-                File.AppendAllText(
-                    @"C:\Users\Arvids\Documents\GitHub\ooo\to do list app\to do application settings\todos.txt",
-                todoEntries[i] + "\r\n");
-            // \n -> eto enter 
+            {
+
+                File.AppendAllText(pathToTodoFile, todoEntries[i].Name + "\r\n");
+
+                bool isCompleted = todoEntries[i].isCompleted;
+                File.AppendAllText(pathToTodoFile, isCompleted + "\r\n");
+
+                // \n -> eto enter 
+            }
 
 
+        }
+
+        public void MarkTodoAsDone(int doneTodoIndex)
+        {
+
+            ToDoListEntry doneTodo = todoEntries[doneTodoIndex];
+            doneTodo.isCompleted = true;
+            
 
         }
 
         public void readFromFile()
         {
-            string[] allLinesFromFile = File.ReadAllLines(@"C:\Users\Arvids\Documents\GitHub\ooo\to do list app\to do application settings\todos.txt");
-            foreach(string listEntry in allLinesFromFile)
+            if (!File.Exists(pathToTodoFile)) // mozhno pisatj == true ili false, esli dobavitj ! budet v obratku (== false)
             {
-                todoEntries.Add(listEntry);
+                return;
+            }
+
+            string[] allLinesFromFile = File.ReadAllLines(pathToTodoFile);
+            
+            for(var index = 0; index< allLinesFromFile.Length; index+=2)
+            {
+                string listEntry = allLinesFromFile[index];
+
+                ToDoListEntry fileTodo = new ToDoListEntry();
+
+                fileTodo.Name = listEntry;
+
+                fileTodo.isCompleted = bool.Parse(allLinesFromFile[index +1]);
+
+                todoEntries.Add(fileTodo);
             }
 
                 
