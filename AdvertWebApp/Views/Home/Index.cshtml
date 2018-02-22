@@ -1,7 +1,12 @@
-﻿
-@{
-    ViewBag.Title = "Index";
+﻿<!-- tut ukazivaem modelj kotoruju podojem, at govorit chto eto c#-->
+@model List<AdvertWebApp.Models.Advert>
+
+<!-- tut ispoljzuja foreach cikl zavedem html kod dlja nashih objav-->
+
+@foreach (var ad in Model)
+{
+    <p>@ad.Name - @ad.AdvertText @ad.Price USD </p> <a href="/Home/Advert?advertId=@ad.AdvertId">open add</a>
 }
 
-<h2>Index</h2>
+<!-- tak mozhno pisatj komenti v html kode-->
 

@@ -1,0 +1,28 @@
+﻿@model AdvertWebApp.Models.Advert
+
+<!-- model s malenjkoi nachinaetsja sverhu, chtob ukazatj putj, daljshe uzaem s boljshoi-->
+@if (@Model == null)
+
+{
+   <h1>advert have not been found </h1>
+   @Html.ActionLink(" back to advert","Index")
+}
+
+else
+{
+    <div>
+    <h2>Advert</h2>
+    <h3>@Model.Name</h3>
+    </div>
+
+    <div>
+    <label>Price:</label><span>@Model.Price</span>
+    <label>Creation Time:</label><span>@Model.CreationTime</span>
+    </div>
+    
+    @Model.AdvertText
+    
+}
+
+@Html.ActionLink(" back to advert", "Index")
+
