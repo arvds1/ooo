@@ -40,7 +40,7 @@ namespace to_do_list_app
                 if (todoEntries[counter].isCompleted)
 
                 {
-                    Console.WriteLine("DONE");
+                    Console.WriteLine(" DONE");
                 }
 
                 Console.WriteLine();
@@ -103,6 +103,7 @@ namespace to_do_list_app
         }
 
         public void readFromFile()
+
         {
             if (!File.Exists(pathToTodoFile)) // mozhno pisatj == true ili false, esli dobavitj ! budet v obratku (== false)
             {
@@ -111,6 +112,8 @@ namespace to_do_list_app
 
             string[] allLinesFromFile = File.ReadAllLines(pathToTodoFile);
             
+            todoEntries.Clear();
+
             for(var index = 0; index< allLinesFromFile.Length; index+=2)
             {
                 string listEntry = allLinesFromFile[index];

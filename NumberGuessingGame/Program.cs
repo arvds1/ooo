@@ -12,8 +12,10 @@ namespace NumberGuessingGame
         {
 
             Console.WriteLine("please enter Max number till which you would like to guess:");
+            
             string userInput = Console.ReadLine();
 
+            Console.WriteLine("you have 3 attempts, let`s start");
             // tut generator
 
             int maxNumber = int.Parse(userInput);
@@ -29,7 +31,7 @@ namespace NumberGuessingGame
 
             {
                 // tut usera prosim vnesti number
-                Console.WriteLine("try #" + tryCount + " please enter your number: ");
+                Console.WriteLine("#" + tryCount + " please enter your number: ");
                 string userGuess = Console.ReadLine();
                 int userNum = int.Parse(userGuess);
 

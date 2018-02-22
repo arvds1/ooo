@@ -13,6 +13,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "to do list app", "to do lis
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FizzBuzz", "FizzBuzz\FizzBuzz.csproj", "{70D9F8C4-A1F5-4083-BAA3-81AA936B3532}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserName", "ConsoleApp2\UserName.csproj", "{81A8BECE-CE08-450A-A854-67E785A6479E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdvertWebApp", "AdvertWebApp\AdvertWebApp.csproj", "{708AF41F-F781-4F04-8ADF-35C10A409BC8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,14 @@ Global
 		{70D9F8C4-A1F5-4083-BAA3-81AA936B3532}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{70D9F8C4-A1F5-4083-BAA3-81AA936B3532}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{70D9F8C4-A1F5-4083-BAA3-81AA936B3532}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81A8BECE-CE08-450A-A854-67E785A6479E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81A8BECE-CE08-450A-A854-67E785A6479E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81A8BECE-CE08-450A-A854-67E785A6479E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81A8BECE-CE08-450A-A854-67E785A6479E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{708AF41F-F781-4F04-8ADF-35C10A409BC8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{708AF41F-F781-4F04-8ADF-35C10A409BC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{708AF41F-F781-4F04-8ADF-35C10A409BC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{708AF41F-F781-4F04-8ADF-35C10A409BC8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
