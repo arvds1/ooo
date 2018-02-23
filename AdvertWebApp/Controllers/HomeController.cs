@@ -11,41 +11,27 @@ namespace AdvertWebApp.Controllers
     {
         public HomeController()
         {
-            adverts = new List<Advert>();
-            Advert ad = new Advert();
-            ad.AdvertId = 1;
-            ad.Name = "bmw";
-            ad.AdvertText = "buy my fantastic bmw";
-            ad.Price = 15000.99;
-            ad.CreationTime = DateTime.Now;
-
-            Advert HomeAd = new Advert();
-            HomeAd.AdvertId = 2;
-            HomeAd.Name = "house";
-            HomeAd.AdvertText = "buy my fantastic house";
-            HomeAd.Price = 150000.99;
-            HomeAd.CreationTime = new DateTime(1999, 12, 31);
-
-            adverts.Add(ad);
-            adverts.Add(HomeAd);
+            advertDb = new AdvertDb();
         }
 
 
         private List<Advert> adverts;
+        private AdvertDb advertDb;
+   
         // eta funkcija vizivaet putj k stranice 
         // GET: Home (naprimer ss.lv) 
         public ActionResult Index()
         {
             // eta funkcija vizivaet html rezuljtat iz nashego index.cshtml faila
             // otsjuda podajem objavlenija
-            return View(adverts);
+            return View(advertDb.Adverts.ToList());
 
         }
 
         public ActionResult Advert(int advertId)
         {
             // proverjaem objavlenija, esli id sovpadaet s tem chto zaprosil user, vidaem 
-            foreach (var ad in adverts)
+            foreach (var ad in advertDb.Adverts)
             {
                 if (ad.AdvertId == advertId)
                 {
@@ -55,8 +41,24 @@ namespace AdvertWebApp.Controllers
             }
 
             return View();
+
+
         }
 
-        
+        public ActionResult CreateAdvert()
+        {
+            return View();
+        }
+
+        // Http post govorit o tom chto mi ozhidaem chto user poshlet dannie
+        [HttpPost]
+        public ActionResult CreateAdvert(Advert advert)
+        {
+            advert.CreationTime = DateTime.Now;
+            advertDb.Adverts.Add(advert);
+            advertDb.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
     }
 }

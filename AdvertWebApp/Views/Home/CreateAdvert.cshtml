@@ -1,0 +1,30 @@
+﻿@model AdvertWebApp.Models.Advert
+
+<h2>Create Advert</h2>
+@using (Html.BeginForm())
+{
+
+    <div>
+        <label> Advert Name </label>
+        @Html.EditorFor(model => model.Name)
+    </div>
+
+
+
+    <div>
+        <label> Advert Text </label>
+        @Html.EditorFor(model => model.AdvertText)
+    </div>
+
+
+    <div>
+        <label> Advert Price </label>
+        @Html.EditorFor(model => model.Price)
+    </div>
+
+
+    <input type="submit" value="save advert " />
+}
+
+
+
