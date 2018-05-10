@@ -21,8 +21,10 @@ else
     </div>
     
     @Model.AdvertText
-    
+
+    @Html.ActionLink("edit", "EditAdvert", "Home", new { advertId = Model.AdvertId }, null)
+  
 }
 
 @Html.ActionLink(" back to advert", "Index")
-
+<!-- <a href = "Home"/EditAdvert?advertID=atModel.AdvertId>edit - bilo bi tozhe samoe chto nizhe -->

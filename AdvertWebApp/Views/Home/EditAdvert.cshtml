@@ -1,0 +1,47 @@
+﻿@model AdvertWebApp.Models.Advert
+
+<h2>EditAdvert</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(model => model.CreationTime)
+    <div>
+        <h4>Advert</h4>
+        <hr />
+        @Html.ValidationSummary(true, "")
+
+        <div>
+            @Html.LabelFor(model => model.Price)
+            <div>
+                @Html.EditorFor(model => model.Price)
+                @Html.ValidationMessageFor(model => model.Price)
+            </div>
+        </div>
+
+        <div>
+            @Html.LabelFor(model => model.Name)
+            <div>
+                @Html.EditorFor(model => model.Name)
+                @Html.ValidationMessageFor(model => model.Name)
+            </div>
+        </div>
+
+        <div>
+            @Html.LabelFor(model => model.AdvertText)
+            <div>
+                @Html.EditorFor(model => model.AdvertText)
+                @Html.ValidationMessageFor(model => model.AdvertText)
+            </div>
+        </div>
+
+        <div>
+            <div>
+                <input type="submit" value="Save" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

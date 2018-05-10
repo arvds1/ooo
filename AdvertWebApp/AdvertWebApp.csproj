@@ -118,6 +118,10 @@
     <Compile Include="Migrations\201802231845191_initial.Designer.cs">
       <DependentUpon>201802231845191_initial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201802261816570_madePricerequired.cs" />
+    <Compile Include="Migrations\201802261816570_madePricerequired.Designer.cs">
+      <DependentUpon>201802261816570_madePricerequired.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\advert.cs" />
     <Compile Include="Models\AdvertDb.cs" />
@@ -135,6 +139,7 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\Home\Advert.cshtml" />
     <Content Include="Views\Home\CreateAdvert.cshtml" />
+    <Content Include="Views\Home\EditAdvert.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -148,6 +153,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201802231845191_initial.resx">
       <DependentUpon>201802231845191_initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802261816570_madePricerequired.resx">
+      <DependentUpon>201802261816570_madePricerequired.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

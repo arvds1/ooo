@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserName", "ConsoleApp2\Use
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdvertWebApp", "AdvertWebApp\AdvertWebApp.csproj", "{708AF41F-F781-4F04-8ADF-35C10A409BC8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "justTest", "justTest\justTest.csproj", "{F15EA61E-00AE-4235-8120-3D6F9AD39BDE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{708AF41F-F781-4F04-8ADF-35C10A409BC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{708AF41F-F781-4F04-8ADF-35C10A409BC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{708AF41F-F781-4F04-8ADF-35C10A409BC8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F15EA61E-00AE-4235-8120-3D6F9AD39BDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F15EA61E-00AE-4235-8120-3D6F9AD39BDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F15EA61E-00AE-4235-8120-3D6F9AD39BDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F15EA61E-00AE-4235-8120-3D6F9AD39BDE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
