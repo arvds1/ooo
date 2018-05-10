@@ -28,12 +28,37 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            this.productDataView = new System.Windows.Forms.DataGridView();
+            ((System.ComponentModel.ISupportInitialize)(this.productDataView)).BeginInit();
+            this.SuspendLayout();
+            // 
+            // productDataView
+            // 
+            this.productDataView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.productDataView.Location = new System.Drawing.Point(3, 3);
+            this.productDataView.Name = "productDataView";
+            this.productDataView.RowTemplate.Height = 24;
+            this.productDataView.Size = new System.Drawing.Size(1255, 512);
+            this.productDataView.TabIndex = 0;
+            this.productDataView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
+            // 
+            // Form1
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Text = "Form1";
+            this.ClientSize = new System.Drawing.Size(1264, 527);
+            this.Controls.Add(this.productDataView);
+            this.Name = "Form1";
+            this.Text = "Get Product Data";
+            this.Load += new System.EventHandler(this.Form1_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.productDataView)).EndInit();
+            this.ResumeLayout(false);
+
         }
 
         #endregion
+
+        private System.Windows.Forms.DataGridView productDataView;
     }
 }
 
