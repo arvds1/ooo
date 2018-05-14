@@ -11,32 +11,64 @@ using HtmlAgilityPack;
 
 namespace GetProductData
 {
+    public class ProductData
+    {
+        public string Description { get; set; }
+        public string RegularPrice { get; set; }
+        public string ActionPrice { get; set; }
+    }
     public partial class Form1 : Form
     {
         DataTable table;
+        HtmlWeb web = new HtmlWeb();
         public Form1()
         {
             InitializeComponent();
+            InitTable();
         }
 
         private void InitTable()
         {
        
             table = new DataTable("ProductData");
-            table.Columns.Add("Number", typeof(string));
             table.Columns.Add("Description", typeof(string));
-            table.Columns.Add("Regular Price", typeof(string));
-            table.Columns.Add("Action Price", typeof(string));
+            table.Columns.Add("RegularPrice", typeof(string));
+            table.Columns.Add("ActionPrice", typeof(string));
             productDataView.DataSource = table;
         }
 
+        private async Task<List<ProductData>> InformationFromPage(int PageNum)
+        {
+            string url = "https://www.ksenukai.lv/c/darza-un-auto-piederumi/darza-mebeles/1hq";
+            if (PageNum != 0)
+                url = "https://www.ksenukai.lv/c/darza-un-auto-piederumi/darza-mebeles/1hq?page=" + PageNum.ToString();
+            var doc = await Task.Factory.StartNew(() => web.Load(url));
+            var descriptionNodes = doc.DocumentNode.SelectNodes("/html//div//div//div//div//div//div//div//div//div//div//p/a");
+            var regularPriceNodes = doc.DocumentNode.SelectNodes("/html//div//div//div//div/div//div//div/div//div//div/div//span[2]");
+            var actionPriceNodes = doc.DocumentNode.SelectNodes("/html//div//div//div//div/div//div//div/div//div//div/div//span//span[1]");
+
+            if (descriptionNodes == null || regularPriceNodes == null || actionPriceNodes == null)
+                return new List<ProductData>();
+            var description = descriptionNodes.Select(node => node.InnerText);
+            var regularPrice = regularPriceNodes.Select(node => node.InnerText);
+            var actionPrice = actionPriceNodes.Select(node => node.InnerText);
+            return description.Zip(actionPrice, (name, action) => new ProductData() {  Description = name, ActionPrice = action, RegularPrice = action }).ToList();
+        }
         private async void Form1_Load(object sender, EventArgs e)
         {
-            InitTable();
-            HtmlWeb web = new HtmlWeb();
-            var doc = await Task.Factory.StartNew(() => web.Load("https://www.ksenukai.lv/c?utf8=%E2%9C%93&q=mebeles"));
-            doc.DocumentNode.SelectNodes("/html/body/div[2]/div[1]/div[3]/div/div[2]/div[2]/div/div[3]/div[1]/div/p/a");
-            // 8.22 minuta video
+            int PageNum = 0;
+            var products = await InformationFromPage(0);
+            while (products.Count > 0)
+            {
+                foreach (var product in products)
+                    table.Rows.Add(product.Description, product.RegularPrice, product.ActionPrice);
+                PageNum++;
+                products = await InformationFromPage(PageNum);
+            }
+
+
+
+
         }
 
 
