@@ -60,9 +60,11 @@ namespace GetProductData
 
         private async Task<List<ProductData>> InformationFromPage(int PageNum)
         {
+
             string url = "https://www.ksenukai.lv/c/darza-un-auto-piederumi/darza-mebeles/1hq";
             if (PageNum != 0)
                 url = "https://www.ksenukai.lv/c/darza-un-auto-piederumi/darza-mebeles/1hq?page=" + PageNum.ToString();
+
             var doc = await Task.Factory.StartNew(() => web.Load(url));
             var descriptionNodes = doc.DocumentNode.SelectNodes("/html//div//div//div//div//div//div//div//div//div//div//p/a");
             var actionPriceNodes = doc.DocumentNode.SelectNodes("/html//div//div//div//div/div//div//div/div//div//div/div//span//span[1]");
@@ -73,7 +75,6 @@ namespace GetProductData
             var description = descriptionNodes.Select(node => node.InnerText);
             var discount = discountNodes.Select(node => node.InnerText);
             var actionPrice = actionPriceNodes.Select(node => node.InnerText);
-
             var result = description.ZipThree(actionPrice, discount, (name, action, disco) => new ProductData() {  Description = name, ActionPrice = action, Discount = disco }).ToList();
             return result;
         }
@@ -81,12 +82,13 @@ namespace GetProductData
 
         private async void Form1_Load(object sender, EventArgs e)
         {
+            
             int PageNum = 0;
             var products = await InformationFromPage(0);
             while (products.Count > 0)
             {
                 foreach (var product in products)
-                    table.Rows.Add(product.Description, product.ActionPrice, product.Discount);
+                    table.Rows.Add(product.Description, product.ActionPrice.Replace(",","."), product.Discount.Replace("\n", ""));
                 PageNum++;
                 products = await InformationFromPage(PageNum);
             }

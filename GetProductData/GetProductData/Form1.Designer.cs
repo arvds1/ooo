@@ -38,7 +38,7 @@
             this.productDataView.Location = new System.Drawing.Point(3, 3);
             this.productDataView.Name = "productDataView";
             this.productDataView.RowTemplate.Height = 24;
-            this.productDataView.Size = new System.Drawing.Size(1255, 512);
+            this.productDataView.Size = new System.Drawing.Size(905, 519);
             this.productDataView.TabIndex = 0;
             this.productDataView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
