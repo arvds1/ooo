@@ -11,12 +11,24 @@ using HtmlAgilityPack;
 
 namespace GetProductData
 {
-    public class ProductData
+    public static class MyFunkyExtensions
     {
-        public string Description { get; set; }
-        public string RegularPrice { get; set; }
-        public string ActionPrice { get; set; }
+        public static IEnumerable<TResult> ZipThree<T1, T2, T3, TResult>(
+            this IEnumerable<T1> source,
+            IEnumerable<T2> second,
+            IEnumerable<T3> third,
+            Func<T1, T2, T3, TResult> func)
+        {
+            using (var e1 = source.GetEnumerator())
+            using (var e2 = second.GetEnumerator())
+            using (var e3 = third.GetEnumerator())
+            {
+                while (e1.MoveNext() && e2.MoveNext() && e3.MoveNext())
+                    yield return func(e1.Current, e2.Current, e3.Current);
+            }
+        }
     }
+
     public partial class Form1 : Form
     {
         DataTable table;
@@ -27,13 +39,22 @@ namespace GetProductData
             InitTable();
         }
 
+
+        public class ProductData
+        {
+            public string Description { get; set; }
+            public string ActionPrice { get; set; }
+            public string Discount { get; set; }
+            
+        }
+
         private void InitTable()
         {
        
             table = new DataTable("ProductData");
             table.Columns.Add("Description", typeof(string));
-            table.Columns.Add("RegularPrice", typeof(string));
             table.Columns.Add("ActionPrice", typeof(string));
+            table.Columns.Add("Discount", typeof(string));
             productDataView.DataSource = table;
         }
 
@@ -44,16 +65,20 @@ namespace GetProductData
                 url = "https://www.ksenukai.lv/c/darza-un-auto-piederumi/darza-mebeles/1hq?page=" + PageNum.ToString();
             var doc = await Task.Factory.StartNew(() => web.Load(url));
             var descriptionNodes = doc.DocumentNode.SelectNodes("/html//div//div//div//div//div//div//div//div//div//div//p/a");
-            var regularPriceNodes = doc.DocumentNode.SelectNodes("/html//div//div//div//div/div//div//div/div//div//div/div//span[2]");
             var actionPriceNodes = doc.DocumentNode.SelectNodes("/html//div//div//div//div/div//div//div/div//div//div/div//span//span[1]");
+            var discountNodes = doc.DocumentNode.SelectNodes("/html//div//div//div//div/div//div//div//div//div//div/div[3]");
 
-            if (descriptionNodes == null || regularPriceNodes == null || actionPriceNodes == null)
+            if (descriptionNodes == null || discountNodes == null || actionPriceNodes == null)
                 return new List<ProductData>();
             var description = descriptionNodes.Select(node => node.InnerText);
-            var regularPrice = regularPriceNodes.Select(node => node.InnerText);
+            var discount = discountNodes.Select(node => node.InnerText);
             var actionPrice = actionPriceNodes.Select(node => node.InnerText);
-            return description.Zip(actionPrice, (name, action) => new ProductData() {  Description = name, ActionPrice = action, RegularPrice = action }).ToList();
+
+            var result = description.ZipThree(actionPrice, discount, (name, action, disco) => new ProductData() {  Description = name, ActionPrice = action, Discount = disco }).ToList();
+            return result;
         }
+
+
         private async void Form1_Load(object sender, EventArgs e)
         {
             int PageNum = 0;
@@ -61,7 +86,7 @@ namespace GetProductData
             while (products.Count > 0)
             {
                 foreach (var product in products)
-                    table.Rows.Add(product.Description, product.RegularPrice, product.ActionPrice);
+                    table.Rows.Add(product.Description, product.ActionPrice, product.Discount);
                 PageNum++;
                 products = await InformationFromPage(PageNum);
             }
@@ -78,4 +103,6 @@ namespace GetProductData
 
         }
     }
+
+
 }
