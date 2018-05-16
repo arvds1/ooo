@@ -13,18 +13,20 @@ namespace GetProductData
 {
     public static class MyFunkyExtensions
     {
-        public static IEnumerable<TResult> ZipThree<T1, T2, T3, TResult>(
+        public static IEnumerable<TResult> ZipFour<T1, T2, T3, T4, TResult>(
             this IEnumerable<T1> source,
             IEnumerable<T2> second,
             IEnumerable<T3> third,
-            Func<T1, T2, T3, TResult> func)
+            IEnumerable<T4> fourth,
+            Func<T1, T2, T3, T4, TResult> func)
         {
             using (var e1 = source.GetEnumerator())
             using (var e2 = second.GetEnumerator())
             using (var e3 = third.GetEnumerator())
+            using (var e4 = fourth.GetEnumerator())
             {
-                while (e1.MoveNext() && e2.MoveNext() && e3.MoveNext())
-                    yield return func(e1.Current, e2.Current, e3.Current);
+                while (e1.MoveNext() && e2.MoveNext() && e3.MoveNext() && e4.MoveNext ())
+                    yield return func(e1.Current, e2.Current, e3.Current, e4.Current);
             }
         }
     }
@@ -45,7 +47,8 @@ namespace GetProductData
             public string Description { get; set; }
             public string ActionPrice { get; set; }
             public string Discount { get; set; }
-            
+            public string Category { get; set; }
+
         }
 
         private void InitTable()
@@ -55,6 +58,7 @@ namespace GetProductData
             table.Columns.Add("Description", typeof(string));
             table.Columns.Add("ActionPrice", typeof(string));
             table.Columns.Add("Discount", typeof(string));
+            table.Columns.Add("Category", typeof(string));
             productDataView.DataSource = table;
         }
 
@@ -69,13 +73,15 @@ namespace GetProductData
             var descriptionNodes = doc.DocumentNode.SelectNodes("/html//div//div//div//div//div//div//div//div//div//div//p/a");
             var actionPriceNodes = doc.DocumentNode.SelectNodes("/html//div//div//div//div/div//div//div/div//div//div/div//span//span[1]");
             var discountNodes = doc.DocumentNode.SelectNodes("/html//div//div//div//div/div//div//div//div//div//div/div[3]");
+            var categoryNodes = doc.DocumentNode.SelectNodes("/html//div//div//div//div/div//div//div//div//div//div/p/a");
 
-            if (descriptionNodes == null || discountNodes == null || actionPriceNodes == null)
+            if (descriptionNodes == null || discountNodes == null || actionPriceNodes == null || categoryNodes == null)
                 return new List<ProductData>();
             var description = descriptionNodes.Select(node => node.InnerText);
             var discount = discountNodes.Select(node => node.InnerText);
             var actionPrice = actionPriceNodes.Select(node => node.InnerText);
-            var result = description.ZipThree(actionPrice, discount, (name, action, disco) => new ProductData() {  Description = name, ActionPrice = action, Discount = disco }).ToList();
+            var category = categoryNodes.Select(node => node.InnerText);
+            var result = description.ZipFour(actionPrice, discount, category, (name, action, disco, cat) => new ProductData() {  Description = name, ActionPrice = action, Discount = disco, Category = cat }).ToList();
             return result;
         }
 
@@ -88,7 +94,7 @@ namespace GetProductData
             while (products.Count > 0)
             {
                 foreach (var product in products)
-                    table.Rows.Add(product.Description, product.ActionPrice.Replace(",","."), product.Discount.Replace("\n", ""));
+                    table.Rows.Add(product.Description, product.ActionPrice.Replace(",","."), product.Discount.Replace("\n", ""), product.Category);
                 PageNum++;
                 products = await InformationFromPage(PageNum);
             }
