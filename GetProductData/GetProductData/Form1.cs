@@ -25,7 +25,7 @@ namespace GetProductData
             using (var e3 = third.GetEnumerator())
             using (var e4 = fourth.GetEnumerator())
             {
-                while (e1.MoveNext() && e2.MoveNext() && e3.MoveNext() && e4.MoveNext ())
+                while (e1.MoveNext() && e2.MoveNext() && e3.MoveNext() && e4.MoveNext())
                     yield return func(e1.Current, e2.Current, e3.Current, e4.Current);
             }
         }
@@ -49,6 +49,8 @@ namespace GetProductData
         }
     }
 
+
+
     public partial class Form1 : Form
     {
         DataTable table;
@@ -57,6 +59,17 @@ namespace GetProductData
         {
             InitializeComponent();
             InitTable();
+
+        }
+
+
+
+        private void textUrl_TextChanged(object sender, EventArgs e)
+        {
+
+            string url = textUrl.Text;
+            return;
+                        
         }
 
 
@@ -77,7 +90,7 @@ namespace GetProductData
         }
 
 
-
+        
 
         private void InitTable()
         {
@@ -93,16 +106,15 @@ namespace GetProductData
             productDataView.DataSource = table;
         }
 
-        string url1 = "https://www.k-rauta.ee/c/kute-ventilatsioon-ja-vesi/ahjud-ja-korstnad/ahjud-ja-kaminad/fj";
 
+        string url1= "https://www.ksenukai.lv/c/interjers-mebeles-un-tekstils/majas-tekstils/gultas-vela-segas-un-spilveni/1st";
 
         private async Task<List<ProductData>> InformationFromPage(int PageNum)
         {
-
             string url = url1;
             if (PageNum != 0)
                 url = url1 + "?page=" + PageNum.ToString();
-
+    
             var doc = await Task.Factory.StartNew(() => web.Load(url));
             var descriptionNodes = doc.DocumentNode.SelectNodes("/html//div//div//div//div//div//div//div//div//div//div//p/a");
             var actionPriceNodes = doc.DocumentNode.SelectNodes("/html//div//div//div//div/div//div//div/div//div//div/div//span//span[1]");
@@ -118,6 +130,7 @@ namespace GetProductData
             var regularPrice = regularPriceNodes.Select(node => node.InnerText);
             var result1 = description.ZipFour(actionPrice, regularPrice, discount, (name, action, regular, disco) => new ProductData() {  Description = name, ActionPrice = action, RegularPrice = regular, Discount = disco }).ToList();
             return result1;
+            
         }
 
         private async Task<List<CategoryData>> CategoryInfo(int PageNum)
@@ -137,13 +150,14 @@ namespace GetProductData
             var subsubcategory = subSubCategoryNodes.Select(node => node.InnerText);
             var result2 = category.ZipThree(subcategory, subsubcategory, (cat, sub, subsub) => new CategoryData() { Category = cat, SubCategory = sub, SubSubCategory = subsub }).ToList();
             return result2;
+
         }
          
-
+        
 
         private async void Form1_Load(object sender, EventArgs e)
         {
-            
+             
             int PageNum = 0;
             var products = await InformationFromPage(0);
             var categories = await CategoryInfo(0);
@@ -155,7 +169,9 @@ namespace GetProductData
                         product.ActionPrice.Replace(",","."), 
                         product.RegularPrice.Replace(" € / gab.", "").Replace(",",".").Replace(" € / pak.","").Replace("\n","").Replace(" € / vnt.", "").Replace(" € / tk", ""), 
                         product.Discount.Replace("\n", ""), 
-                        category.Category.Replace("\n", ""), category.SubCategory, category.SubSubCategory);
+                        category.Category.Replace("\n", ""), 
+                        category.SubCategory, 
+                        category.SubSubCategory);
                         
                 PageNum++;
                 products = await InformationFromPage(PageNum);
@@ -174,6 +190,13 @@ namespace GetProductData
         {
 
         }
+
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+  
+        }
+
     }
 
 
