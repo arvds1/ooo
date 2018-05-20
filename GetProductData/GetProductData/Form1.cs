@@ -64,6 +64,7 @@ namespace GetProductData
         {
             public string Description { get; set; }
             public string ActionPrice { get; set; }
+            public string RegularPrice { get; set; }
             public string Discount { get; set; }
 
         }
@@ -72,6 +73,7 @@ namespace GetProductData
         {
             public string Category { get; set; }
             public string SubCategory { get; set; }
+            public string SubSubCategory { get; set; }
         }
 
 
@@ -83,24 +85,28 @@ namespace GetProductData
             table = new DataTable("ProductData");
             table.Columns.Add("Description", typeof(string));
             table.Columns.Add("ActionPrice", typeof(string));
+            table.Columns.Add("RegularPrice", typeof(string));
             table.Columns.Add("Discount", typeof(string));
             table.Columns.Add("Category", typeof(string));
+            table.Columns.Add("SubCategory", typeof(string));
+            table.Columns.Add("SubSubCategory", typeof(string));
             productDataView.DataSource = table;
         }
 
-        string url1 = "https://www.ksenukai.lv/c/instrumenti/instrumentu-kastes-moduli-un-somas/1iw";
-        string url2 = "https://www.ksenukai.lv/c/instrumenti/instrumentu-kastes-moduli-un-somas/1iw?page=";
+        string url1 = "https://www.k-rauta.ee/c/kute-ventilatsioon-ja-vesi/ahjud-ja-korstnad/ahjud-ja-kaminad/fj";
+
 
         private async Task<List<ProductData>> InformationFromPage(int PageNum)
         {
 
             string url = url1;
             if (PageNum != 0)
-                url = url2 + PageNum.ToString();
+                url = url1 + "?page=" + PageNum.ToString();
 
             var doc = await Task.Factory.StartNew(() => web.Load(url));
             var descriptionNodes = doc.DocumentNode.SelectNodes("/html//div//div//div//div//div//div//div//div//div//div//p/a");
             var actionPriceNodes = doc.DocumentNode.SelectNodes("/html//div//div//div//div/div//div//div/div//div//div/div//span//span[1]");
+            var regularPriceNodes = doc.DocumentNode.SelectNodes("/html//div//div//div//div/div//div//div//div//div//div/div[1]/span[2]");
             var discountNodes = doc.DocumentNode.SelectNodes("/html//div//div//div//div/div//div//div//div//div//div/div[3]");
             
 
@@ -109,26 +115,27 @@ namespace GetProductData
             var description = descriptionNodes.Select(node => node.InnerText);
             var discount = discountNodes.Select(node => node.InnerText);
             var actionPrice = actionPriceNodes.Select(node => node.InnerText);
-         
-            var result1 = description.ZipThree(actionPrice, discount, (name, action, disco) => new ProductData() {  Description = name, ActionPrice = action, Discount = disco }).ToList();
+            var regularPrice = regularPriceNodes.Select(node => node.InnerText);
+            var result1 = description.ZipFour(actionPrice, regularPrice, discount, (name, action, regular, disco) => new ProductData() {  Description = name, ActionPrice = action, RegularPrice = regular, Discount = disco }).ToList();
             return result1;
         }
 
         private async Task<List<CategoryData>> CategoryInfo(int PageNum)
+
         {
 
             string url = url1;
-            if (PageNum != 0)
-                url = url2 + PageNum.ToString();
-
             var doc = await Task.Factory.StartNew(() => web.Load(url));
-            var categoryNodes = doc.DocumentNode.SelectNodes("//*[@data-gtm-breadcrumb]");
-
-            if (categoryNodes == null)
+            var categoryNodes = doc.DocumentNode.SelectNodes("//*[@id=\"breadcrumb_1\"]/a[1]/span");
+            var subCategoryNodes = doc.DocumentNode.SelectNodes("//*[@id=\"breadcrumb_2\"]/a/span");
+            var subSubCategoryNodes = doc.DocumentNode.SelectNodes("/html//div//div//div//div/div//div//div//div//h1/a");
+            
+            if (categoryNodes == null || subCategoryNodes == null || subSubCategoryNodes == null) 
                 return new List<CategoryData>();
-            var category = categoryNodes.Select(node => node.ParentNode.InnerText);
-            var subcategory = categoryNodes.Select(node => node.Attributes); 
-            var result2 = category.Zip(category, (cat, sub) => new CategoryData() { Category = cat, SubCategory = sub }).ToList();
+            var category = categoryNodes.Select(node => node.InnerText);
+            var subcategory = subCategoryNodes.Select(node => node.InnerText);
+            var subsubcategory = subSubCategoryNodes.Select(node => node.InnerText);
+            var result2 = category.ZipThree(subcategory, subsubcategory, (cat, sub, subsub) => new CategoryData() { Category = cat, SubCategory = sub, SubSubCategory = subsub }).ToList();
             return result2;
         }
          
@@ -139,15 +146,24 @@ namespace GetProductData
             
             int PageNum = 0;
             var products = await InformationFromPage(0);
-            while (products.Count > 0)
+            var categories = await CategoryInfo(0);
+            while (products.Count > 0 || categories.Count > 0)
             {
                 foreach (var product in products)
-                    table.Rows.Add(product.Description, product.ActionPrice.Replace(",","."), product.Discount.Replace("\n", ""),);
+                    foreach(var category in categories)
+                    table.Rows.Add(product.Description, 
+                        product.ActionPrice.Replace(",","."), 
+                        product.RegularPrice.Replace(" € / gab.", "").Replace(",",".").Replace(" € / pak.","").Replace("\n","").Replace(" € / vnt.", "").Replace(" € / tk", ""), 
+                        product.Discount.Replace("\n", ""), 
+                        category.Category.Replace("\n", ""), category.SubCategory, category.SubSubCategory);
+                        
                 PageNum++;
                 products = await InformationFromPage(PageNum);
+                categories = await CategoryInfo(PageNum);
             }
 
             
+
 
 
         }
