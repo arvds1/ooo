@@ -38,16 +38,16 @@
             // productDataView
             // 
             this.productDataView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.productDataView.Location = new System.Drawing.Point(3, 3);
+            this.productDataView.Location = new System.Drawing.Point(3, 101);
             this.productDataView.Name = "productDataView";
             this.productDataView.RowTemplate.Height = 24;
-            this.productDataView.Size = new System.Drawing.Size(1132, 600);
+            this.productDataView.Size = new System.Drawing.Size(1052, 700);
             this.productDataView.TabIndex = 0;
             this.productDataView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(1374, 221);
+            this.button1.Location = new System.Drawing.Point(909, 33);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(146, 43);
             this.button1.TabIndex = 1;
@@ -57,16 +57,16 @@
             // 
             // textUrl
             // 
-            this.textUrl.Location = new System.Drawing.Point(1209, 177);
+            this.textUrl.Location = new System.Drawing.Point(58, 43);
             this.textUrl.Name = "textUrl";
-            this.textUrl.Size = new System.Drawing.Size(467, 22);
+            this.textUrl.Size = new System.Drawing.Size(824, 22);
             this.textUrl.TabIndex = 2;
             this.textUrl.TextChanged += new System.EventHandler(this.textUrl_TextChanged);
             // 
             // labelUrl
             // 
             this.labelUrl.AutoSize = true;
-            this.labelUrl.Location = new System.Drawing.Point(1209, 147);
+            this.labelUrl.Location = new System.Drawing.Point(12, 46);
             this.labelUrl.Name = "labelUrl";
             this.labelUrl.Size = new System.Drawing.Size(40, 17);
             this.labelUrl.TabIndex = 3;
@@ -76,7 +76,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1782, 553);
+            this.ClientSize = new System.Drawing.Size(1782, 953);
             this.Controls.Add(this.labelUrl);
             this.Controls.Add(this.textUrl);
             this.Controls.Add(this.button1);
