@@ -81,14 +81,12 @@ namespace GetProductData
             productDataView.DataSource = table;
         }
 
-        string url1 = "https://www.ksenukai.lv/c/interjers-mebeles-un-tekstils/mebeles/darza-mebeles/2b4";
-
-
 
 
 
         private async void button1_Click(object sender, EventArgs e)
         {
+            string url1 = textUrl.Text;
             
             async Task<List<ProductData>> InformationFromPage(int PageNum)
             {
