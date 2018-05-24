@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using HtmlAgilityPack;
 
+
 namespace GetProductData
 {
     public static class MyFunkyExtensions
@@ -43,7 +44,9 @@ namespace GetProductData
                     yield return func(e1.Current, e2.Current, e3.Current);
             }
         }
+
     }
+
 
     static class Program
     {
