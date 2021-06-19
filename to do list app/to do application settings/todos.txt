@@ -1,8 +1,6 @@
-aaaa
-True
-bbbb
+kupitj sobaku
 False
-cccc
+sjestj ponchik
 False
-dddd
-True
+morozhenko rastopitj
+False
